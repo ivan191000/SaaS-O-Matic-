@@ -84,14 +84,14 @@ router.post('/', async (req, res) => {
         if (!name || !fiscalId || !email || !country || !plan) {
             return res.status(400).json({ error: 'Todos los campos son obligatorios (name, fiscalId, email, country, plan).' });
         }
-        // Validación algorítmica si el país es España
-        const normalizedCountry = country.trim().toUpperCase();
-        if (normalizedCountry === 'ESPAÑA' || normalizedCountry === 'SPAIN') {
-            const isValidFiscal = (0, validation_1.validateSpanishID)(fiscalId);
-            if (!isValidFiscal) {
-                return res.status(400).json({ error: 'El identificador fiscal (DNI/NIF/CIF) español no es válido según las reglas oficiales de control.' });
-            }
+        // Validación algorítmica general del Identificador Fiscal según el país
+        console.log(`[Validation] Validando ID Fiscal para ${country}: ${fiscalId} (${name})`);
+        const isValidFiscal = (0, validation_1.validateFiscalID)(fiscalId, country);
+        if (!isValidFiscal) {
+            console.warn(`[Validation] ID Fiscal inválido: ${fiscalId} para ${country}`);
+            return res.status(400).json({ error: `El identificador fiscal (NIF/IVA) introducido no es válido para ${country} según sus reglas oficiales de control.` });
         }
+        console.log(`[Validation] ID Fiscal válido: ${fiscalId}`);
         const db = await (0, db_1.getDb)();
         try {
             const result = await db.run(`INSERT INTO customers (name, fiscal_id, email, country, plan) VALUES (?, ?, ?, ?, ?)`, name.trim(), fiscalId.trim().toUpperCase(), email.trim(), country.trim(), plan.trim());

@@ -69,7 +69,7 @@ Si el país seleccionado al registrar un cliente es **España**, el backend real
 
 ## 3. Contratos de la API REST
 
-### `POST /api/customers`
+### `POST /customers`
 Registra un nuevo cliente corporativo en el sistema.
 
 - **Request Body (JSON)**:
@@ -103,7 +103,7 @@ Registra un nuevo cliente corporativo en el sistema.
 }
 ```
 
-### `GET /api/customers`
+### `GET /customers`
 Retorna todos los clientes registrados, opcionalmente filtrados por nombre o identificador fiscal.
 
 - **Query Params**:
@@ -124,7 +124,7 @@ Retorna todos los clientes registrados, opcionalmente filtrados por nombre o ide
 ]
 ```
 
-### `POST /api/simulations`
+### `POST /simulations`
 Registra una nueva simulación de consumo y guarda el coste calculado en euros.
 
 - **Request Body (JSON)**:
@@ -156,7 +156,7 @@ Registra una nueva simulación de consumo y guarda el coste calculado en euros.
 }
 ```
 
-### `GET /api/customers/:id`
+### `GET /customers/:id`
 Retorna el detalle completo de un cliente y su historial de simulaciones ordenadas por fecha descendente.
 
 - **Response (200 OK)**:

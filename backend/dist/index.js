@@ -12,9 +12,9 @@ const app = (0, express_1.default)();
 const PORT = process.env.PORT || 4000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use('/api/customers', customers_1.default);
-app.use('/api/simulations', simulations_1.default);
-app.get('/api/health', (req, res) => {
+app.use('/customers', customers_1.default);
+app.use('/simulations', simulations_1.default);
+app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', message: 'SaaS-O-Matic API is healthy.' });
 });
 app.use((req, res) => {

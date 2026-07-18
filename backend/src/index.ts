@@ -10,10 +10,10 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/customers', customersRouter);
-app.use('/api/simulations', simulationsRouter);
+app.use('/customers', customersRouter);
+app.use('/simulations', simulationsRouter);
 
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'SaaS-O-Matic API is healthy.' });
 });
 

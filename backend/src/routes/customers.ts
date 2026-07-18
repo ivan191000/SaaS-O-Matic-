@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { getDb } from '../db';
-import { validateSpanishID } from '../utils/validation';
+import { validateFiscalID } from '../utils/validation';
 
 const router = Router();
 
@@ -97,14 +97,14 @@ router.post('/', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Todos los campos son obligatorios (name, fiscalId, email, country, plan).' });
     }
 
-    // Validación algorítmica si el país es España
-    const normalizedCountry = country.trim().toUpperCase();
-    if (normalizedCountry === 'ESPAÑA' || normalizedCountry === 'SPAIN') {
-      const isValidFiscal = validateSpanishID(fiscalId);
-      if (!isValidFiscal) {
-        return res.status(400).json({ error: 'El identificador fiscal (DNI/NIF/CIF) español no es válido según las reglas oficiales de control.' });
-      }
+    // Validación algorítmica general del Identificador Fiscal según el país
+    console.log(`[Validation] Validando ID Fiscal para ${country}: ${fiscalId} (${name})`);
+    const isValidFiscal = validateFiscalID(fiscalId, country);
+    if (!isValidFiscal) {
+      console.warn(`[Validation] ID Fiscal inválido: ${fiscalId} para ${country}`);
+      return res.status(400).json({ error: `El identificador fiscal (NIF/IVA) introducido no es válido para ${country} según sus reglas oficiales de control.` });
     }
+    console.log(`[Validation] ID Fiscal válido: ${fiscalId}`);
 
     const db = await getDb();
 
